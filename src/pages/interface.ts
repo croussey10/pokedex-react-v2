@@ -1,3 +1,10 @@
+export interface ResourcePokemons {
+    count: number;
+    results: {
+       name: string
+    }[]
+}
+
 export interface Pokemon {
     id: number;
     name: string;
