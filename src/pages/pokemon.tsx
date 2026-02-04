@@ -7,8 +7,16 @@ export function Pokemon() {
 
     const { name } = useParams()
     const [pokemonInfos, setPokemonInfos] = useState<Pokemon | null>(null);
+    const [pokemonsListName] = useState<string[]>(() => {
+        const allPokemonsNameLocal = localStorage.getItem("allPokemonsNameLocal");
+        if (!allPokemonsNameLocal) {
+            return []
+        }
+        return JSON.parse(allPokemonsNameLocal)
+    });
 
     useEffect(() => {
+
         const loadPokemonInfos = async () => {
             try {
                 if (!name) {
@@ -27,18 +35,18 @@ export function Pokemon() {
         return <p> Chargement des infos du pokémon... </p>
     }
 
-    const nextPokemonId = pokemonInfos.id + 1;
-    const prevPokemonId = pokemonInfos.id - 1;
+    const nextPokemonName = pokemonsListName[pokemonInfos.id];
+    const prevPokemonName = pokemonsListName[pokemonInfos.id - 2];
 
     return (
         <div>
             <Link to={`/`}>
                 <button id="btn-previous">Home</button>
             </Link>
-            <Link to={`/pokemon/${prevPokemonId}`}>
+            <Link to={`/pokemon/${prevPokemonName}`}>
                 <button id="btn-previous">Previous</button>
             </Link>
-            <Link to={`/pokemon/${nextPokemonId}`}>
+            <Link to={`/pokemon/${nextPokemonName}`}>
                 <button id="btn-previous">Next</button>
             </Link>
             <h1> {pokemonInfos.name} </h1>

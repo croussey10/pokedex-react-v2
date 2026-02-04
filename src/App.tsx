@@ -9,14 +9,19 @@ function App() {
 
     useEffect(() => {
         const getAllPokemonsName = async () => {
-            const allPokemonsName: string[] = [];
             const resourcePokemons = await fetchResourcePokemons();
-            resourcePokemons?.results.map((el) => allPokemonsName.push(el.name));
-            return allPokemonsName
+            return resourcePokemons?.results.map((el) => el.name)
         }
-        const setAllPokemonsNameInLocalStorage = async () => {
 
+        const setAllPokemonsNameInLocalStorage = async () => {
+            const allPokemonsNameLocal = await getAllPokemonsName();
+            localStorage.setItem("allPokemonsNameLocal", JSON.stringify(allPokemonsNameLocal))
         }
+
+        if (!localStorage.getItem("allPokemonsNameLocal")) {
+            void setAllPokemonsNameInLocalStorage();
+        }
+
     }, []);
 
     return (
